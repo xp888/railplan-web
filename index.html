@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>杭州 → 漯河 · 行程方案</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --card:#fff; --ink:#0f172a; --muted:#64748b;
+    --line:#e6e8ec; --brand:#3b5bfd; --brand2:#22b8cf;
+    --ok:#0f9d58; --warn:#f59e0b; --danger:#e5484d;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px -12px rgba(15,23,42,.18);
+    --r:16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#0c0f14;--card:#151a22;--ink:#e8edf5;--muted:#8b98a9;--line:#242c38;
+          --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px -14px rgba(0,0,0,.7);}
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+       padding:0 0 40px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  a{color:var(--brand);text-decoration:none}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;padding:34px 0 26px;
+        background:linear-gradient(135deg,#2f45d8 0%,#3b5bfd 45%,#20b2aa 120%);color:#fff}
+  .hero:after{content:"";position:absolute;inset:0;
+        background:radial-gradient(600px 200px at 85% -20%,rgba(255,255,255,.28),transparent 70%)}
+  .hero .wrap{position:relative}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+  h1{margin:6px 0 2px;font-size:26px;letter-spacing:-.02em}
+  .hero .route{font-size:14px;opacity:.9}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);
+        border-radius:999px;padding:5px 11px;font-size:12.5px;backdrop-filter:blur(6px)}
+  .chip b{font-weight:650}
+
+  h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+     margin:30px 0 12px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+        box-shadow:var(--shadow);overflow:hidden}
+
+  /* timeline */
+  .tl{position:relative;padding:6px 0}
+  .stop{display:grid;grid-template-columns:78px 26px 1fr;gap:0 12px;align-items:start}
+  .stop .time{text-align:right;font-variant-numeric:tabular-nums;font-weight:650;font-size:17px;padding-top:14px}
+  .stop .time small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+  .rail{position:relative;height:100%;min-height:56px}
+  .rail:before{content:"";position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--line)}
+  .dot{position:absolute;left:6px;top:18px;width:12px;height:12px;border-radius:50%;
+       background:var(--card);border:2.5px solid var(--brand);z-index:1}
+  .dot.big{background:var(--brand)}
+  .stop .what{padding:12px 0 16px}
+  .stop .name{font-weight:650;font-size:15.5px}
+  .stop .meta{color:var(--muted);font-size:12.5px;margin-top:2px}
+
+  /* leg card */
+  .leg{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;
+       background:linear-gradient(180deg,rgba(59,91,253,.05),transparent);
+       border:1px solid var(--line);margin:6px 0 6px 90px}
+  @media(max-width:520px){.leg{margin-left:0}}
+  .leg .tn{font-weight:700;font-size:15px;letter-spacing:.01em}
+  .leg .seats{font-size:12px;color:var(--muted);margin-top:2px}
+  .leg .price{margin-left:auto;text-align:right;font-variant-numeric:tabular-nums}
+  .leg .price b{font-size:16px}
+  .leg .price small{display:block;color:var(--muted);font-size:11.5px}
+  .badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:6px;
+         border:1px solid currentColor;margin-left:6px;vertical-align:1px}
+  .b-ok{color:var(--ok)} .b-wait{color:var(--warn)}
+
+  /* transfer */
+  .xfer{display:flex;align-items:center;gap:10px;margin:6px 0 6px 90px;
+        font-size:12.5px;color:var(--muted)}
+  @media(max-width:520px){.xfer{margin-left:0}}
+  .bar{flex:1;height:6px;border-radius:99px;background:var(--line);overflow:hidden;max-width:220px}
+  .bar i{display:block;height:100%;border-radius:99px;
+         background:linear-gradient(90deg,var(--brand),var(--brand2))}
+  .bar.low i{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{padding:11px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+  @media(max-width:560px){
+    table{font-size:12.5px}
+    th,td{padding:10px 7px}
+    th{font-size:10.5px;letter-spacing:0}
+    td:first-child{white-space:normal;line-height:1.3;max-width:96px}
+  }
+  .sub{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:1px}
+  }
+  th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  tr:last-child td{border-bottom:0}
+  td.num{font-variant-numeric:tabular-nums}
+  tr.pick{background:linear-gradient(90deg,rgba(59,91,253,.10),transparent)}
+  tr.pick td:first-child{box-shadow:inset 3px 0 0 var(--brand)}
+  .score{font-weight:650}
+  .tag{font-size:11px;padding:1px 6px;border-radius:5px;background:rgba(59,91,253,.12);
+       color:var(--brand);margin-left:6px}
+
+  /* sliders */
+  .ctl{display:grid;gap:14px;padding:14px 16px}
+  .ctl label{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px}
+  .ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--brand)}
+  .ctl output{font-variant-numeric:tabular-nums;font-weight:650;color:var(--brand)}
+  .hint{font-size:11.5px;color:var(--muted);padding:0 16px 14px}
+
+  /* method */
+  .grid{display:grid;gap:12px}
+  @media(min-width:600px){.grid.two{grid-template-columns:1fr 1fr}}
+  .m{padding:14px 16px}
+  .m h3{margin:0 0 6px;font-size:14px}
+  .m p{margin:0;color:var(--muted);font-size:13px}
+  code{background:rgba(127,127,127,.14);padding:1px 5px;border-radius:5px;font-size:12px}
+  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:28px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Railplan · 行程方案</div>
+    <h1>杭州 → 漯河</h1>
+    <div class="route">2026-11-17 周二 · 三段高铁 · 两次同站换乘</div>
+    <div class="chips">
+      <span class="chip">🚄 <b>11:34</b> 出发</span>
+      <span class="chip">🏁 <b>18:42</b> 到达</span>
+      <span class="chip">⏱ 全程 <b>7 小时 08 分</b></span>
+      <span class="chip">💳 现金 ¥305 + 积分 <b>23,200</b></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h2>行程时间轴</h2>
+  <div class="card tl">
+
+    <div class="stop">
+      <div class="time">11:34<small>11-17</small></div>
+      <div class="rail"><span class="dot big"></span></div>
+      <div class="what"><div class="name">杭州东</div><div class="meta">始发 · 2 号检票口方向</div></div>
+    </div>
+
+    <div class="leg">
+      <div>
+        <div class="tn">G812 <span class="badge b-ok">已购</span></div>
+        <div class="seats">二等座 07 车 01F · 靠窗 · 历时 3h06</div>
+      </div>
+      <div class="price"><b>¥305</b><small>现金支付</small></div>
+    </div>
+
+    <div class="stop">
+      <div class="time">14:40<small>徐州东</small></div>
+      <div class="rail"><span class="dot"></span></div>
+      <div class="what"></div>
+    </div>
+    <div class="xfer">
+      <span>换乘 <b>57 分</b> · 同站便捷换乘</span>
+      <span class="bar"><i style="width:76%"></i></span>
+    </div>
+
+    <div class="leg">
+      <div>
+        <div class="tn">G1851 <span class="badge b-ok">已购</span></div>
+        <div class="seats">二等座 07 车 16F · 靠窗 · 历时 1h49</div>
+      </div>
+      <div class="price"><b>¥168</b><small>积分 16,800</small></div>
+    </div>
+
+    <div class="stop">
+      <div class="time">17:26<small>郑州东</small></div>
+      <div class="rail"><span class="dot"></span></div>
+      <div class="what"></div>
+    </div>
+    <div class="xfer">
+      <span>换乘 <b>36 分</b> · 同站便捷换乘</span>
+      <span class="bar"><i style="width:48%"></i></span>
+    </div>
+
+    <div class="leg">
+      <div>
+        <div class="tn">G503 <span class="badge b-wait">待购</span></div>
+        <div class="seats">二等座 · 历时 40 分 · 二等有票</div>
+      </div>
+      <div class="price"><b>¥64</b><small>积分 6,400</small></div>
+    </div>
+
+    <div class="stop">
+      <div class="time">18:42<small>漯河西</small></div>
+      <div class="rail"><span class="dot big"></span></div>
+      <div class="what"><div class="name">漯河西</div>
+        <div class="meta">到西平还需 50 公里 · 打车约 60 分钟</div></div>
+    </div>
+
+  </div>
+
+  <h2>候选方案排序</h2>
+  <div class="card">
+    <table id="rank">
+      <thead><tr><th>方案</th><th>到达</th><th>换乘</th><th>缓冲(分)</th><th>二等</th><th>打分</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="ctl">
+      <label>每多一次换乘等价
+        <output id="o1">20 分</output>
+        <input id="wleg" type="range" min="0" max="60" step="5" value="20">
+      </label>
+      <label>紧张换乘惩罚
+        <output id="o2">1.5×</output>
+        <input id="wrisk" type="range" min="0" max="4" step="0.5" value="1.5">
+      </label>
+    </div>
+    <div class="hint">打分 = 到达时刻 + 换乘次数×权重 + max(0, 30−缓冲)×惩罚。拖动权重看冠军怎么变。</div>
+  </div>
+
+  <h2>为什么没法更早</h2>
+  <div class="card m">
+    <p>11:30 之后从杭州出发，最早到郑州东是 <b>17:08</b>（经徐州东）。郑州东 → 漯河西最快 40 分钟，加上 25 分钟换乘， 理论上最早 <b>18:21</b> 到漯河西。<br>
+    想再提前，只能把出发时间挪到 11:30 前——那是另一个方案域了。</p>
+  </div>
+
+  <h2>方案怎么算出来的</h2>
+  <div class="grid two">
+    <div class="card m"><h3>① 采集</h3><p>出发城市 → 枢纽、枢纽 → 到达城市、枢纽 → 枢纽三组 OD 查询，每条结果天然是一条可乘区间边。</p></div>
+    <div class="card m"><h3>② 搜索</h3><p>RAPTOR 思路：按乘车次数分层传播标签，每站维护 (到达时刻, 换乘次数) 帕累托前沿，劣解即时剪枝。</p></div>
+    <div class="card m"><h3>③ 排序</h3><p>多目标打分，换乘次数与换乘紧张度可调权重，输出前 N 条而不是唯一解。</p></div>
+    <div class="card m"><h3>④ 核验</h3><p>本地 SQLite 先出候选，再只对入选方案逐段实时复核：车次在售、时刻未变、目标席别有票。</p></div>
+  </div>
+
+  <h2>数据说明</h2>
+  <div class="card m">
+    <p>余票为 <b>10:52</b> 的快照，车票随时可能售出。价格取 12306 票面价，积分按 <code>100 积分 = 1 元</code> 折算，能否兑换取决于车次是否有「兑」标识。</p>
+  </div>
+
+  <footer>
+    Railplan · 数据源 12306 公开接口 · 本地方案缓存 SQLite<br>
+    单文件网页，无外部依赖，可离线打开
+  </footer>
+</main>
+
+<script>
+const PLANS = [
+  {id:"A", name:"徐州东 · 郑州东", arr:1101, legs:2, mins:[25,33], price:544},
+  {id:"B", name:"徐州东 · 郑州东", arr:1116, legs:2, mins:[57,30], price:544},
+  {id:"C", name:"徐州东 · 郑州东", arr:1122, legs:2, mins:[57,54], price:537, chosen:true},
+  {id:"D", name:"武汉换乘", arr:1141, legs:1, mins:[70], price:516, sold:true}
+];
+
+const hm = m => String(Math.floor(m/60)).padStart(2,"0") + ":" + String(m%60).padStart(2,"0");
+
+function render(){
+  const wl = +document.getElementById("wleg").value;
+  const wr = +document.getElementById("wrisk").value;
+  document.getElementById("o1").textContent = wl + " 分";
+  document.getElementById("o2").textContent = wr.toFixed(1) + "×";
+
+  const rows = PLANS.map(p=>{
+    const risk = p.mins.reduce((s,g)=>s+Math.max(0,30-g),0);
+    return {...p, score: p.arr + p.legs*wl + wr*risk,
+            risk, note: p.mins.map(g=>Math.max(0,30-g)).some(x=>x>0)};
+  }).sort((a,b)=>a.score-b.score);
+
+  document.querySelector("#rank tbody").innerHTML = rows.map((p,i)=>`
+    <tr class="${i===0?'pick':''}">
+      <td><b>${p.id}</b>${i===0?'<span class="tag">最优</span>':''}${p.chosen?'<span class="tag" style="background:rgba(15,157,88,.14);color:var(--ok)">已选</span>':''}
+          <span class="sub">${p.name}${p.sold?' · 二等售完':''}</span></td>
+      <td class="num">${hm(p.arr)}</td>
+      <td class="num">${p.legs}</td>
+      <td class="num">${p.mins.join("/")}</td>
+      <td class="num">¥${p.price}</td>
+      <td class="num score">${p.score.toFixed(0)}</td>
+    </tr>`).join("");
+}
+document.getElementById("wleg").addEventListener("input", render);
+document.getElementById("wrisk").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
